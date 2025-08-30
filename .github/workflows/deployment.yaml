@@ -17,8 +17,8 @@ on:
         default: 'no'
         type: choice
         options:
-          - yes
-          - no
+          - 'yes'
+          - 'no'
 
       ticket:
         description: 'Ticket Number (required for prod)'
