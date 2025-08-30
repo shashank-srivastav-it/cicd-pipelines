@@ -1,33 +1,36 @@
 name: GitHub Actions POC
 on:
-    workflow_dispatch:
-        inputs:
-            environment:
-                description: 'Select environment'
-                required: true
-                default: '-'
-                type: choice
-                options:
-                - dev
-                - staging
-                - prod
-            ticket:
-                description: 'Ticket Number (required for prod)'
-                required: false
-                default: '-'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Select environment'
+        required: true
+        default: '-'
+        type: choice
+        options:
+          - dev
+          - staging
+          - prod
+      ticket:
+        description: 'Ticket Number (required for prod)'
+        required: false
+        default: '-'
 
 jobs:
-    log-info:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Log info
-              run: echo $GITHUB_REF
-            - name: Deploy to selected environment
-              run: echo "Deploying to ${{ github.event.inputs.environment }}"
-            - name: 📄 Log Ticket number
-              run: echo "Ticket Number: ${{ github.event.inputs.ticket }}"
-            - name: ❌ Validate Ticket for prod
-              if: ${{ github.event.inputs.environment == 'prod' && github.event.inputs.ticket == '' }}
-              run: |
-                echo "::error::Ticket number is required for production deployment!"
-                exit 1
+  log-info:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🧾 Log GitHub Ref
+        run: echo "🔗 GitHub Ref: $GITHUB_REF"
+
+      - name: 🚀 Deploy to selected environment
+        run: echo "Deploying to ${{ github.event.inputs.environment }}"
+
+      - name: 📄 Log Ticket number
+        run: echo "Ticket Number: ${{ github.event.inputs.ticket }}"
+
+      - name: ❌ Validate Ticket for prod
+        if: ${{ github.event.inputs.environment == 'prod' && github.event.inputs.ticket == '' }}
+        run: |
+          echo "::error::Ticket number is required for production deployment!"
+          exit 1
