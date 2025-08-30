@@ -20,10 +20,10 @@ on:
           - 'yes'
           - 'no'
 
-      ticket:
-        description: 'Ticket Number (required for prod)'
-        required: false
-        default: '-'
+    #   ticket:
+    #     description: 'Ticket Number (required for prod)'
+    #     required: false
+    #     default: '-'
        
 
 jobs:
