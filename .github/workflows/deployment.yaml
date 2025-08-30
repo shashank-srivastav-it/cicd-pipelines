@@ -1,0 +1,10 @@
+name: GitHub Actions POC
+on:
+    workflow_dispatch:
+
+jobs:
+    log-info:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Log info
+              run: echo "This is a GitHub Actions POC"        
