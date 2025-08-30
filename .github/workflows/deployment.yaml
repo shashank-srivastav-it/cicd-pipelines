@@ -7,4 +7,4 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Log info
-              run: echo "This is a GitHub Actions POC"        
+              run: echo $GITHUB_REF
