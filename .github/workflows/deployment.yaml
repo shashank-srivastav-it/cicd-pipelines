@@ -21,13 +21,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 🧾 Log GitHub Ref
-        run: echo "🔗 GitHub Ref: $GITHUB_REF"
-
+        run: |
+            echo "🔗 GitHub Ref: $GITHUB_REF"
       - name: 🚀 Deploy to selected environment
-        run: echo "Deploying to ${{ github.event.inputs.environment }}"
+        run: |
+            echo "Deploying to ${{ github.event.inputs.environment }}"
 
       - name: 📄 Log Ticket number
-        run: echo "Ticket Number: ${{ github.event.inputs.ticket }}"
+        run: |
+          echo "Ticket Number: ${{ github.event.inputs.ticket }}"
 
       - name: ❌ Validate Ticket for prod
         if: ${{ github.event.inputs.environment == 'prod' && github.event.inputs.ticket == '' }}
