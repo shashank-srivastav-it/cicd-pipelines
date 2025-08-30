@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: 'Select environment'
+        description: 'Select the environment for deployment'
         required: true
         default: '-'
         type: choice
@@ -11,10 +11,20 @@ on:
           - dev
           - staging
           - prod
+      skip_dev_if_staging:
+        description: 'If deploying to Staging, do you want to skip deployment in Dev?'
+        required: false
+        default: 'no'
+        type: choice
+        options:
+          - yes
+          - no
+
       ticket:
         description: 'Ticket Number (required for prod)'
         required: false
         default: '-'
+       
 
 jobs:
   log-info:
@@ -36,3 +46,15 @@ jobs:
         run: |
           echo "::error::Ticket number is required for production deployment!"
           exit 1
+      - name: 🚀 Deploy to Dev
+        if: ${{ github.event.inputs.environment == 'dev' || (github.event.inputs.environment == 'staging' && github.event.inputs.skip_dev_if_staging == 'no') }}
+        run: echo "✅ Deploying to Dev..."
+
+      - name: 🚀 Deploy to Staging
+        if: ${{ github.event.inputs.environment == 'staging' }}
+        run: echo "✅ Deploying to Staging..."
+
+      - name: 🚀 Deploy to Prod
+        if: ${{ github.event.inputs.environment == 'prod' }}
+        run: echo "✅ Deploying to Prod..."
+     
