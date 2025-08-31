@@ -19,11 +19,15 @@ on:
         options:
           - 'yes'
           - 'no'
-
-    #   ticket:
-    #     description: 'Ticket Number (required for prod)'
-    #     required: false
-    #     default: '-'
+      confirm_prod:
+        description: '⚠️ Type "yes" to confirm this is a production deployment'
+        required: false
+        default: ''  # ← Empty default
+    
+      ticket:
+        description: 'Ticket Number (required for prod)'
+        required: false
+        default: '-'
        
 
 jobs:
@@ -42,7 +46,7 @@ jobs:
           echo "Ticket Number: ${{ github.event.inputs.ticket }}"
 
       - name: ❌ Validate Ticket for prod
-        if: ${{ github.event.inputs.environment == 'prod' && github.event.inputs.ticket == '-' }}
+        if: ${{ github.event.inputs.environment == 'prod' && github.event.inputs.ticket == '-' && github.event.inputs.confirm_prod == 'yes' }}
         run: |
           echo "::error::Ticket number is required for production deployment!"
           exit 1
